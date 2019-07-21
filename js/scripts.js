@@ -5,7 +5,7 @@ const gallery = document.getElementById('gallery');
  * then calls the appendUsers function
  */
 function getUsers() {
-    fetch('https://randomuser.me/api/?results=12')
+    fetch('https://randomuser.me/api/?results=12&nat=gb,us,nz,au')
         .then(res => res.json())
         .then(data => appendUsers(data.results))
         .catch(err => {
@@ -33,7 +33,7 @@ function appendUsers(data) {
                             <p class="card-text cap">${item.location.city}, ${item.location.state} ${item.nat}</p>
                         </div>
                     </div>`;
-        listenForClick(item);
+        listenForClick(item, data, index);
         return html;
     }).join('');
     gallery.innerHTML = people;
@@ -44,9 +44,10 @@ function appendUsers(data) {
  * adds a click event to the close button
  * @param {object} item - data on individual user 
  */
-function createModal(item) {
+function createModal(item, data, index) {
     const div = document.createElement('div');
     const dob = GetFormattedDate(item.dob.date);
+    
 
     // Template for modal
     div.className = 'modal-container';
@@ -69,24 +70,77 @@ function createModal(item) {
                 </div>`;
     div.innerHTML = html;
     document.querySelector('body').appendChild(div);
+    
+    // hides next or prev button if 0 or 11
+    if (index >= 11) {
+        document.getElementById('modal-next').style.display = 'none';
+    } else {
+        document.getElementById('modal-next').style.display = 'inline-block';
+    }
+
+    if (index <= 0) {
+        document.getElementById('modal-prev').style.display = 'none';
+    } else {
+        document.getElementById('modal-prev').style.display = 'inline-block';
+    }
 
     // Adds event listener for close button
     const closeButton = document.getElementById('modal-close-btn');
     closeButton.addEventListener('click', e => {
         div.remove();
     });
+
+    // Click event for next button
+    document.getElementById('modal-next').addEventListener('click', e => {
+        div.remove();
+        nextUser(data, index)
+    })
+    
+    // Click event for prev button
+    document.getElementById('modal-prev').addEventListener('click', e => {
+        div.remove();
+        prevUser(data, index)
+    })
+}
+
+/**
+ * Shows next user
+ * @param {object} data 
+ * @param {number} index 
+ */
+function nextUser(data, index) {
+    let item = data[index += 1];
+    createModal(item, data, index);
+    if (index >= 11) {
+        document.getElementById('modal-next').style.display = 'none';
+    } else {
+        document.getElementById('modal-next').style.display = 'inline-block';
+    }
+}
+
+/**
+ * Shows previous user
+ * @param {object} data 
+ * @param {number} index 
+ */
+function prevUser(data, index) {
+    let item = data[index -= 1];
+    createModal(item, data, index);
+    if (index <= 0) {
+        document.getElementById('modal-prev').style.display = 'none';
+    } else {
+        document.getElementById('modal-prev').style.display = 'inline-block';
+    }
 }
 
 /**
  * 
  * @param {object} data - data from API call 
  */
-function listenForClick(data) {
+function listenForClick(item, data, index) {
     setTimeout(event => {
-        const person = document.getElementById(`${data.name.first}${data.name.last}`);
-        person.addEventListener('click', e => {
-            createModal(data);
-        });
+        const person = document.getElementById(`${item.name.first}${item.name.last}`);
+        person.addEventListener('click', e => createModal(item, data, index));
     },100)
 }
 
