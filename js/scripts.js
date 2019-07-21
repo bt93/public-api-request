@@ -39,9 +39,16 @@ function appendUsers(data) {
     gallery.innerHTML = people;
 }
 
+/**
+ * Creates the modal appends to the page and
+ * adds a click event to the close button
+ * @param {object} item - data on individual user 
+ */
 function createModal(item) {
     const div = document.createElement('div');
     const dob = GetFormattedDate(item.dob.date);
+
+    // Template for modal
     div.className = 'modal-container';
     const html = `<div class="modal">
                     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -51,12 +58,10 @@ function createModal(item) {
                         <p class="modal-text">${item.email}</p>
                         <p class="modal-text cap">${item.location.city} | ${item.location.coordinates.latitude}, ${item.location.coordinates.longitude}</p>
                         <hr>
-                        <p class="modal-text">${item.cell}</p>
-                        <p class="modal-text cap">${item.location.street}, ${item.location.city}, ${item.location.state} ${item.location.postcode}</p>
+                        <p class="modal-text">Cell: ${item.cell}</p>
+                        <p class="modal-text cap">Address: ${item.location.street}, ${item.location.city}, ${item.location.state} ${item.location.postcode}</p>
                         <p class="modal-text">Birthday: ${dob}</p>
                     </div>
-
-                    // IMPORTANT: Below is only for exceeds tasks 
                     <div class="modal-btn-container">
                         <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
                         <button type="button" id="modal-next" class="modal-next btn">Next</button>
@@ -85,6 +90,10 @@ function listenForClick(data) {
     },100)
 }
 
+/**
+ * Formats the date for more readablity
+ * @param {string} date - Date of birth to be formated 
+ */
 function GetFormattedDate(date) {
     var birthday = new Date(date);
     var month = birthday.getMonth() + 1;
