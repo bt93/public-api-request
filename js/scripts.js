@@ -92,7 +92,8 @@ function listenForClick(data) {
 
 /**
  * Formats the date for more readablity
- * @param {string} date - Date of birth to be formated 
+ * @param {string} date - Date of birth to be formated
+ * @return {string} - formated date
  */
 function GetFormattedDate(date) {
     var birthday = new Date(date);
