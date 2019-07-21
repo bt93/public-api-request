@@ -39,8 +39,37 @@ function appendUsers(data) {
     gallery.innerHTML = people;
 }
 
-function createModal(data) {
-    console.log(data);
+function createModal(item) {
+    const div = document.createElement('div');
+    const dob = GetFormattedDate(item.dob.date);
+    div.className = 'modal-container';
+    const html = `<div class="modal">
+                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                    <div class="modal-info-container">
+                        <img class="modal-img" src="${item.picture.large}" alt="${item.name.first} ${item.name.last}">
+                        <h3 id="name" class="modal-name cap">${item.name.first} ${item.name.last}</h3>
+                        <p class="modal-text">${item.email}</p>
+                        <p class="modal-text cap">${item.location.city} | ${item.location.coordinates.latitude}, ${item.location.coordinates.longitude}</p>
+                        <hr>
+                        <p class="modal-text">${item.cell}</p>
+                        <p class="modal-text cap">${item.location.street}, ${item.location.city}, ${item.location.state} ${item.location.postcode}</p>
+                        <p class="modal-text">Birthday: ${dob}</p>
+                    </div>
+
+                    // IMPORTANT: Below is only for exceeds tasks 
+                    <div class="modal-btn-container">
+                        <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                        <button type="button" id="modal-next" class="modal-next btn">Next</button>
+                    </div>
+                </div>`;
+    div.innerHTML = html;
+    document.querySelector('body').appendChild(div);
+
+    // Adds event listener for close button
+    const closeButton = document.getElementById('modal-close-btn');
+    closeButton.addEventListener('click', e => {
+        div.remove();
+    });
 }
 
 /**
@@ -52,6 +81,14 @@ function listenForClick(data) {
         const person = document.getElementById(`${data.name.first}${data.name.last}`);
         person.addEventListener('click', e => {
             createModal(data);
-        })
+        });
     },100)
+}
+
+function GetFormattedDate(date) {
+    var birthday = new Date(date);
+    var month = birthday.getMonth() + 1;
+    var day = birthday.getDate();
+    var year = birthday.getFullYear();
+    return month + "/" + day + "/" + year;
 }
