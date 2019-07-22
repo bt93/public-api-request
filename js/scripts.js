@@ -41,7 +41,7 @@ function appendUsers(data) {
 
 /**
  * Creates the modal appends to the page and
- * adds a click event to the close button
+ * adds a click event to the close button and prev and next buttons
  * @param {object} item - data on individual user 
  */
 function createModal(item, data, index) {
@@ -71,17 +71,17 @@ function createModal(item, data, index) {
     div.innerHTML = html;
     document.querySelector('body').appendChild(div);
     
-    // hides next or prev button if 0 or 11
+    // disables next or prev button if 0 or 11
     if (index >= 11) {
-        document.getElementById('modal-next').style.display = 'none';
+        document.getElementById('modal-next').disabled= true;
     } else {
-        document.getElementById('modal-next').style.display = 'inline-block';
+        document.getElementById('modal-next').disabled = false;
     }
 
     if (index <= 0) {
-        document.getElementById('modal-prev').style.display = 'none';
+        document.getElementById('modal-prev').disabled = true;
     } else {
-        document.getElementById('modal-prev').style.display = 'inline-block';
+        document.getElementById('modal-prev').disabled = false;
     }
 
     // Adds event listener for close button
@@ -112,9 +112,9 @@ function nextUser(data, index) {
     let item = data[index += 1];
     createModal(item, data, index);
     if (index >= 11) {
-        document.getElementById('modal-next').style.display = 'none';
+        document.getElementById('modal-next').disabled = true;
     } else {
-        document.getElementById('modal-next').style.display = 'inline-block';
+        document.getElementById('modal-next').disabled = false;
     }
 }
 
@@ -127,9 +127,9 @@ function prevUser(data, index) {
     let item = data[index -= 1];
     createModal(item, data, index);
     if (index <= 0) {
-        document.getElementById('modal-prev').style.display = 'none';
+        document.getElementById('modal-prev').disabled = true;
     } else {
-        document.getElementById('modal-prev').style.display = 'inline-block';
+        document.getElementById('modal-prev').disabled = false;
     }
 }
 
