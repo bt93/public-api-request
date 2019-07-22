@@ -43,6 +43,8 @@ function appendUsers(data) {
  * Creates the modal appends to the page and
  * adds a click event to the close button and prev and next buttons
  * @param {object} item - data on individual user 
+ * @param {object} data - all the data
+ * @param {object} index - current users index 
  */
 function createModal(item, data, index) {
     const div = document.createElement('div');
@@ -134,8 +136,10 @@ function prevUser(data, index) {
 }
 
 /**
- * 
- * @param {object} data - data from API call 
+ * Click event for for modal
+ * @param {object} item - data on individual user 
+ * @param {object} data - all the data
+ * @param {object} index - current users index 
  */
 function listenForClick(item, data, index) {
     setTimeout(event => {
