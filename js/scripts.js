@@ -156,3 +156,22 @@ function GetFormattedDate(date) {
     var year = birthday.getFullYear();
     return month + "/" + day + "/" + year;
 }
+
+function appendSearch() {
+    // Creates and appends form
+    const container = document.querySelector('.search-container');
+    const form = `<form action="#" method="get">
+                    <input type="search" id="search-input" class="search-input" placeholder="Search...">
+                    <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+                </form>`;
+    container.innerHTML = form;
+    
+    // Adds event listener for form
+    document.querySelector('form').addEventListener('submit', e => {
+        e.preventDefault();
+        console.log(e.target[0].value)
+        e.target[0].value = '';
+    });
+}
+
+appendSearch();
