@@ -157,6 +157,11 @@ function GetFormattedDate(date) {
     return month + "/" + day + "/" + year;
 }
 
+
+/**
+ * Creates and appends search form and
+ * adds event listener
+ */
 function appendSearch() {
     // Creates and appends form
     const container = document.querySelector('.search-container');
@@ -169,9 +174,31 @@ function appendSearch() {
     // Adds event listener for form
     document.querySelector('form').addEventListener('submit', e => {
         e.preventDefault();
-        console.log(e.target[0].value)
+        searchUser(e.target[0].value);
         e.target[0].value = '';
     });
 }
 
 appendSearch();
+
+
+/**
+ * searches for the item submited in the form
+ * https://www.w3schools.com/howto/howto_js_filter_lists.asp
+ * @param {string} val - value being searched for 
+ */
+function searchUser(val) {
+    let filter = val.toUpperCase();
+    let users = document.getElementById('gallery').children;
+
+    for (let i = 0; i < users.length; i++) {
+        let h3 = users[i].querySelector('h3');
+        let txtValue = h3.textContent || h3.innerText;
+
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            users[i].style.display = "";
+          } else {
+            users[i].style.display = "none";
+          }
+    }
+}
